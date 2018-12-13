@@ -6,16 +6,29 @@ namespace MyProject
 {
     class Main : MonoBehaviour
     {
+       
         public InputController InputController { get; private set; }
+
         public PlayerController PlayerController { get; set; }
-        public static Main Instance { get; private set; }
+
+        
+
         public Transform Player { get; private set; }
+        public Transform MainCamera { get; private set; }
+
+
         private BaseController[] controllers;
+
+        public static Main Instance { get; private set; }
 
         public void Awake()
         {
             Instance = this;
+            //MainCamera = Camera.main.transform;
+            
             Player = GameObject.FindGameObjectWithTag("Player").transform;
+
+
             PlayerController = new PlayerController(new UnitMoving(Player));
             
             InputController = new InputController();

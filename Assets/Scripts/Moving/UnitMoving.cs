@@ -1,4 +1,5 @@
-﻿using MyProject.Interface;
+﻿using MyProject.Controllers;
+using MyProject.Interface;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,8 @@ using UnityEngine;
 namespace MyProject.Moving
 {
     class UnitMoving:IMove
-    {   
+    {
+        
         private Transform _transform; // трансформ юнита
         private Ray _ray;
         private RaycastHit _hit;
@@ -18,26 +20,33 @@ namespace MyProject.Moving
         public float speed = 0.1f; // скорость движения
         public float radiud = 0.2f;// радиус остановки от точки
 
-
+        
         public UnitMoving(Transform transform)
         {
             _transform = transform;
         }
         public void Move()
         {
-             MouseClick();
-             MoveProc(queue.Peek());
+            
+            MouseClick();
+            if (queue.Count < 1) return;
+            // MoveProc(queue.Peek());
         }
-      
+
         private void MouseClick() // вынести в InputController
         {
-            _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            _ray = Camera.main.ScreenPointToRay(Input.mousePosition); //проблема null exc
+
+            //нужно как то получить из inputController луч. и передать сюда... тогда интерфейс отваливается.
+            //нужно подумать
+
             if (Physics.Raycast(_ray, out _hit))
             {
-                
+
                 if (_hit.transform.tag == "Ground")
                 {
                     queue.Enqueue(_hit.point);
+                    MoveProc(queue.Peek());
                     //MoveProc(_hit.point);////внимание!!!!
                 }
             }
@@ -48,7 +57,7 @@ namespace MyProject.Moving
         //{
         //    if (IsMoving)
         //    {
-        //        StopCoroutine ("MoveProc"); // monoBehaviour
+        //        StopCoroutine("MoveProc"); // monoBehaviour
         //    }
         //    StartCoroutine("MoveProc", point);
         //}
