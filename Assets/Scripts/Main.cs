@@ -24,12 +24,12 @@ namespace MyProject
         public void Awake()
         {
             Instance = this;
-            //MainCamera = Camera.main.transform;
+            MainCamera = Camera.main.transform;
             
             Player = GameObject.FindGameObjectWithTag("Player").transform;
 
 
-            PlayerController = new PlayerController(new UnitMoving(Player));
+            PlayerController = new PlayerController(new UnitMovingWASD(Player));
             
             InputController = new InputController();
             InputController.On();
