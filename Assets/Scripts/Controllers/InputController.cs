@@ -7,7 +7,7 @@ namespace MyProject.Controllers
         public override void MyUpdate()
         {
             if (!IsActive) return;
-            if (Input.GetKeyDown(KeyCode.Mouse0))    
+            if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 Main.Instance.PlayerController.MyUpdate();
             }

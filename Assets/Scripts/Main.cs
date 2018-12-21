@@ -2,6 +2,10 @@
 using MyProject.Moving;
 using UnityEngine;
 
+
+/// <summary>
+/// Переписать управление под точки, сделать 2 префаба (герой, враг), сделать аптечки и аналог ISetDamage для них
+/// </summary>
 namespace MyProject
 {
     class Main : MonoBehaviour
@@ -24,20 +28,20 @@ namespace MyProject
         public void Awake()
         {
             Instance = this;
-            MainCamera = Camera.main.transform;
+            //MainCamera = Camera.main.transform;
             
             Player = GameObject.FindGameObjectWithTag("Player").transform;
 
 
-            PlayerController = new PlayerController(new UnitMovingWASD(Player));
-            
+            //PlayerController = new PlayerController(new UnitMovingWASD(Player));
+            PlayerController = new PlayerController(new UnitMoving(Player));
             InputController = new InputController();
             InputController.On();
 
-            controllers = new BaseController[2]
+            controllers = new BaseController[1]
             {   
                 InputController,
-                PlayerController
+                //PlayerController
             };
         }
         private void Update()

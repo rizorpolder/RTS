@@ -1,87 +1,112 @@
-﻿using MyProject.Controllers;
-using MyProject.Interface;
-using System.Collections;
+﻿using MyProject.Interface;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.AI;
 namespace MyProject.Moving
 {
-    class UnitMoving:IMove
+    class UnitMoving : MonoBehaviour,IMove
     {
-        
+
         private Transform _transform; // трансформ юнита
+        private Transform _point;
         private Ray _ray;
         private RaycastHit _hit;
         private bool IsMoving = false;
-        private Queue<Vector3> queue = new Queue<Vector3>();
-
+        private Queue<Vector3> _points = new Queue<Vector3>();
+        private LineRenderer _lineRenderer;
         public Vector3 offset = new Vector3(0, 1.5f, 0); // оффсет относительно смещения пивода юнита
-
+        private NavMeshPath _path;
         public float speed = 0.1f; // скорость движения
-        public float radiud = 0.2f;// радиус остановки от точки
+        public float radius = 0.2f;// радиус остановки от точки
+        private Vector3 _startPoint;
 
-        
         public UnitMoving(Transform transform)
         {
             _transform = transform;
+            
+            _startPoint = transform.position;
+            _path = new NavMeshPath();
+
+
         }
         public void Move()
         {
-            
-            MouseClick();
-            if (queue.Count < 1) return;
-            // MoveProc(queue.Peek());
+            GetPoint();
         }
-
-        private void MouseClick() // вынести в InputController
+        public void GetPoint()
         {
-            _ray = Camera.main.ScreenPointToRay(Input.mousePosition); //проблема null exc
-
-            //нужно как то получить из inputController луч. и передать сюда... тогда интерфейс отваливается.
-            //нужно подумать
-
-            if (Physics.Raycast(_ray, out _hit))
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out var hit))
             {
-
-                if (_hit.transform.tag == "Ground")
+                //if (Input.GetMouseButtonDown(0))
+                
+                    DrawPoint(hit.point);
+                
+                if (Time.frameCount % 2 == 0)
                 {
-                    queue.Enqueue(_hit.point);
-                    MoveProc(queue.Peek());
-                    //MoveProc(_hit.point);////внимание!!!!
+                    NavMesh.CalculatePath(_startPoint, hit.point, NavMesh.AllAreas, _path);
+                  
+
                 }
             }
-
         }
-
-        //private void CharacterMove(Vector3 point) // это и есть move
-        //{
-        //    if (IsMoving)
-        //    {
-        //        StopCoroutine("MoveProc"); // monoBehaviour
-        //    }
-        //    StartCoroutine("MoveProc", point);
-        //}
-
-        private void  MoveProc(Vector3 point)
+        private void DrawPoint(Vector3 position)
         {
-            IsMoving = true;
-
-            _transform.LookAt(point + offset);
-
-            while (IsMoving)
-            {
-                _transform.position = _transform.position + _transform.forward * speed * Time.deltaTime;
-
-                if (Vector3.Distance(_transform.position, point + offset) < radiud)
-                {
-                    queue.Dequeue();
-                    IsMoving = false;
-                }
-               // yield return null;
-            }
-            //yield break;
+            var point = Instantiate(_point, position, Quaternion.identity);
+            _points.Enqueue(point.position);
         }
-       
-
     }
 }
+#region OldCode
+//        private void MouseClick() // вынести в InputController
+//        {
+//            _ray = Camera.main.ScreenPointToRay(Input.mousePosition); //проблема null exc
+
+//            //нужно как то получить из inputController луч. и передать сюда... тогда интерфейс отваливается.
+//            //нужно подумать
+
+//            if (Physics.Raycast(_ray, out _hit))
+//            {
+
+//                if (_hit.transform.tag == "Ground")
+//                {
+//                    queue.Enqueue(_hit.point);
+//                    MoveProc(queue.Peek());
+//                    //MoveProc(_hit.point);////внимание!!!!
+//                }
+//            }
+
+//        }
+
+//        //private void CharacterMove(Vector3 point) // это и есть move
+//        //{
+//        //    if (IsMoving)
+//        //    {
+//        //        StopCoroutine("MoveProc"); // monoBehaviour
+//        //    }
+//        //    StartCoroutine("MoveProc", point);
+//        //}
+
+//        private void  MoveProc(Vector3 point)
+//        {
+//            IsMoving = true;
+
+//            _transform.LookAt(point + offset);
+
+//            while (IsMoving)
+//            {
+//                _transform.position = _transform.position + _transform.forward * speed * Time.deltaTime;
+
+//                if (Vector3.Distance(_transform.position, point + offset) < radius)
+//                {
+//                    queue.Dequeue();
+//                    IsMoving = false;
+//                }
+//               // yield return null;
+//            }
+//            //yield break;
+//        }
+
+
+//    }
+//}
+#endregion

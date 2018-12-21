@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace MyProject.Moving
 {
+    
     public class UnitMovingWASD:IMove
     {
         private Transform _instance;
