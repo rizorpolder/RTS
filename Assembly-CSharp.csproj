@@ -63,7 +63,9 @@
     <Compile Include="Assets\Scripts\Controllers\BaseController.cs" />
     <Compile Include="Assets\Scripts\Controllers\InputController.cs" />
     <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\RTSPlayerController.cs" />
     <Compile Include="Assets\Scripts\Interface\IMove.cs" />
+    <Compile Include="Assets\Scripts\Interface\IRTSMove.cs" />
     <Compile Include="Assets\Scripts\Main.cs" />
     <Compile Include="Assets\Scripts\Model\BaseObject.cs" />
     <Compile Include="Assets\Scripts\Moving\UnitMoving.cs" />

@@ -1,5 +1,5 @@
 ﻿using MyProject.Model;
-
+using UnityEngine;
 namespace MyProject.Controllers
 {
     public abstract class BaseController
@@ -28,5 +28,6 @@ namespace MyProject.Controllers
         }
 
         public abstract void MyUpdate();
+        
     }
 }

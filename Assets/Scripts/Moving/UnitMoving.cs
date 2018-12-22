@@ -1,10 +1,11 @@
-﻿using MyProject.Interface;
+﻿using Assets.Scripts.Interface;
+using MyProject.Interface;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 namespace MyProject.Moving
 {
-    class UnitMoving : MonoBehaviour,IMove
+    class UnitMoving : IRTSMove
     {
 
         private Transform _transform; // трансформ юнита
@@ -23,90 +24,41 @@ namespace MyProject.Moving
         public UnitMoving(Transform transform)
         {
             _transform = transform;
-            
+
             _startPoint = transform.position;
             _path = new NavMeshPath();
 
 
         }
-        public void Move()
+        public void Move(Vector3 temp)
         {
-            GetPoint();
+            MouseClick(temp);
         }
-        public void GetPoint()
+        public void MouseClick(Vector3 temp)
         {
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out var hit))
+            _ray = Camera.main.ScreenPointToRay(temp);
+            if(Physics.Raycast(_ray, out _hit))
             {
-                //if (Input.GetMouseButtonDown(0))
-                
-                    DrawPoint(hit.point);
-                
-                if (Time.frameCount % 2 == 0)
+                    if(_hit.transform.tag== "ground") // заменить на navMesh
                 {
-                    NavMesh.CalculatePath(_startPoint, hit.point, NavMesh.AllAreas, _path);
-                  
+                    MoveChar(_hit.point);
+                }
+                        
+            }
+        }
 
+        private void MoveChar(Vector3 point)
+        {
+            IsMoving = true;
+            _transform.LookAt(point + offset);
+            while (IsMoving)
+            {
+                _transform.position = _transform.position + _transform.forward * speed * Time.deltaTime;
+                if(Vector3.Distance(_transform.position,point+offset)<radius)
+                {
+                    IsMoving = false;
                 }
             }
         }
-        private void DrawPoint(Vector3 position)
-        {
-            var point = Instantiate(_point, position, Quaternion.identity);
-            _points.Enqueue(point.position);
-        }
     }
 }
-#region OldCode
-//        private void MouseClick() // вынести в InputController
-//        {
-//            _ray = Camera.main.ScreenPointToRay(Input.mousePosition); //проблема null exc
-
-//            //нужно как то получить из inputController луч. и передать сюда... тогда интерфейс отваливается.
-//            //нужно подумать
-
-//            if (Physics.Raycast(_ray, out _hit))
-//            {
-
-//                if (_hit.transform.tag == "Ground")
-//                {
-//                    queue.Enqueue(_hit.point);
-//                    MoveProc(queue.Peek());
-//                    //MoveProc(_hit.point);////внимание!!!!
-//                }
-//            }
-
-//        }
-
-//        //private void CharacterMove(Vector3 point) // это и есть move
-//        //{
-//        //    if (IsMoving)
-//        //    {
-//        //        StopCoroutine("MoveProc"); // monoBehaviour
-//        //    }
-//        //    StartCoroutine("MoveProc", point);
-//        //}
-
-//        private void  MoveProc(Vector3 point)
-//        {
-//            IsMoving = true;
-
-//            _transform.LookAt(point + offset);
-
-//            while (IsMoving)
-//            {
-//                _transform.position = _transform.position + _transform.forward * speed * Time.deltaTime;
-
-//                if (Vector3.Distance(_transform.position, point + offset) < radius)
-//                {
-//                    queue.Dequeue();
-//                    IsMoving = false;
-//                }
-//               // yield return null;
-//            }
-//            //yield break;
-//        }
-
-
-//    }
-//}
-#endregion

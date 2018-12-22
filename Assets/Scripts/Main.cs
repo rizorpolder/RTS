@@ -28,20 +28,20 @@ namespace MyProject
         public void Awake()
         {
             Instance = this;
-            //MainCamera = Camera.main.transform;
+            MainCamera = Camera.main.transform;
             
             Player = GameObject.FindGameObjectWithTag("Player").transform;
 
 
-            //PlayerController = new PlayerController(new UnitMovingWASD(Player));
-            PlayerController = new PlayerController(new UnitMoving(Player));
+            PlayerController = new PlayerController(new UnitMovingWASD(Player));
+            //PlayerController = new PlayerController(new UnitMoving(Player));
             InputController = new InputController();
             InputController.On();
 
-            controllers = new BaseController[1]
+            controllers = new BaseController[2]
             {   
                 InputController,
-                //PlayerController
+                PlayerController
             };
         }
         private void Update()
