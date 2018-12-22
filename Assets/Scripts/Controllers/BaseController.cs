@@ -1,6 +1,4 @@
-﻿using MyProject.Model;
-using UnityEngine;
-namespace MyProject.Controllers
+﻿namespace MyProject
 {
     public abstract class BaseController
     {

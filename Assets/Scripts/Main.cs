@@ -1,6 +1,4 @@
-﻿using MyProject.Controllers;
-using MyProject.Moving;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 /// <summary>
@@ -14,12 +12,14 @@ namespace MyProject
         public InputController InputController { get; private set; }
 
         public PlayerController PlayerController { get; set; }
-
+        public BotController BotController { get; private set; }
         
 
         public Transform Player { get; private set; }
         public Transform MainCamera { get; private set; }
 
+        public Bot bot;
+        public int CountBot;
 
         private BaseController[] controllers;
 
@@ -31,24 +31,35 @@ namespace MyProject
             MainCamera = Camera.main.transform;
             
             Player = GameObject.FindGameObjectWithTag("Player").transform;
-
+            BotController = new BotController();
 
             PlayerController = new PlayerController(new UnitMovingWASD(Player));
             //PlayerController = new PlayerController(new UnitMoving(Player));
             InputController = new InputController();
             InputController.On();
 
-            controllers = new BaseController[2]
-            {   
+            BotController = new BotController { CountBot = CountBot };
+
+            controllers = new BaseController[3]
+            {
                 InputController,
-                PlayerController
+                PlayerController,
+                BotController
             };
+        }
+
+        private void Start()
+        {
+            InputController.On();
+            BotController.On();
+            BotController.Init();
         }
         private void Update()
         {
             
             foreach (var controller in controllers)
             {
+
                 controller.MyUpdate();
             }
         }

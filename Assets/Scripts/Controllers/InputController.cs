@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-namespace MyProject.Controllers
+namespace MyProject
 {
     public class InputController : BaseController
     {
