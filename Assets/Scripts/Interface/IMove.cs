@@ -1,4 +1,4 @@
-﻿namespace MyProject.Interface
+﻿namespace MyProject
 {
     public interface IMove
     {

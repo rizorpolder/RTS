@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-namespace MyProject.Controllers
+namespace MyProject
 {
     public class InputController : BaseController
     {
@@ -7,10 +7,10 @@ namespace MyProject.Controllers
         public override void MyUpdate()
         {
             if (!IsActive) return;
-            if (Input.GetKeyDown(KeyCode.Mouse0))    
-            {
-                Main.Instance.PlayerController.MyUpdate();
-            }
+            //if (Input.GetKeyDown(KeyCode.Mouse0))
+            //{
+            //    Main.Instance.PlayerController.MyUpdate();
+            //}
 
 
         }

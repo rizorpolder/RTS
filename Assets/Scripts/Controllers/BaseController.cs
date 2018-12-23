@@ -1,6 +1,4 @@
-﻿using MyProject.Model;
-
-namespace MyProject.Controllers
+﻿namespace MyProject
 {
     public abstract class BaseController
     {
@@ -11,7 +9,7 @@ namespace MyProject.Controllers
             On(null);
         }
 
-        public virtual void On(BaseObject obj = null)
+        public virtual void On(BaseObjectScene obj = null)
     {
         IsActive = true;
     }
@@ -23,10 +21,17 @@ namespace MyProject.Controllers
 
         public void Switch()
         {
-            if (IsActive) Off();
-            else On();
+            if (IsActive)
+            {
+                Off();
+            }
+            else
+            {
+                On();
+            }
         }
 
         public abstract void MyUpdate();
+        
     }
 }

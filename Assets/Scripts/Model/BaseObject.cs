@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MyProject.Model
+namespace MyProject
 {
     public class BaseObject : MonoBehaviour
     {

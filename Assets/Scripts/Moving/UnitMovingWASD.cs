@@ -1,9 +1,9 @@
-﻿using MyProject.Interface;
-using UnityEngine;
+﻿using UnityEngine;
 
 
-namespace MyProject.Moving
+namespace MyProject
 {
+
     public class UnitMovingWASD:IMove
     {
         private Transform _instance;

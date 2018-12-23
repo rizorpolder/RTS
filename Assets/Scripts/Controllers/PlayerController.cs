@@ -1,6 +1,5 @@
-﻿using MyProject.Interface;
-
-namespace MyProject.Controllers
+﻿
+namespace MyProject
 {
     public class PlayerController : BaseController
     {
