@@ -6,7 +6,7 @@
 /// </summary>
 namespace MyProject
 {
-    class Main : MonoBehaviour
+    public sealed class Main : MonoBehaviour
     {
        
         public InputController InputController { get; private set; }
@@ -21,11 +21,11 @@ namespace MyProject
         public Bot bot;
         public int CountBot;
 
-        private BaseController[] controllers;
+        private BaseController[] _controllers;
 
         public static Main Instance { get; private set; }
 
-        public void Awake()
+        private void Awake()
         {
             Instance = this;
             MainCamera = Camera.main.transform;
@@ -40,7 +40,7 @@ namespace MyProject
 
             BotController = new BotController { CountBot = CountBot };
 
-            controllers = new BaseController[3]
+            _controllers = new BaseController[3]
             {
                 InputController,
                 PlayerController,
@@ -57,7 +57,7 @@ namespace MyProject
         private void Update()
         {
             
-            foreach (var controller in controllers)
+            foreach (var controller in _controllers)
             {
 
                 controller.MyUpdate();

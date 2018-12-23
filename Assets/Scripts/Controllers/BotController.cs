@@ -5,14 +5,15 @@ namespace MyProject
 {
     public class BotController:BaseController
     {
-        public List<Bot> GetBotsList = new List<Bot>();
+        public List<Bot> GetBotsList { get; } = new List<Bot>();
         public int CountBot;
         
         public void Init()
         {
+            var bot = Resources.Load<Bot>("Enemy");
             for(var index =0; index<CountBot; index++)
             {
-                var tempBot = Bot.Instantiate(Main.Instance.bot,
+                var tempBot = Bot.Instantiate(bot,
                 Move.GetPoint(Main.Instance.Player),Quaternion.identity);
 
                 tempBot.agent.avoidancePriority = index;
@@ -23,10 +24,12 @@ namespace MyProject
         }
         public void AddBotToList(Bot bot)
         {
-            if(!GetBotsList.Contains(bot))
-            {
-                GetBotsList.Add(bot);
-            }
+            
+                if (!GetBotsList.Contains(bot))
+                {
+                    GetBotsList.Add(bot);
+                }
+            
         }
         public void RemoveBotFromList(Bot bot)
         {

@@ -5,7 +5,11 @@ namespace MyProject
     public static class Move
 
     {
-
+       /// <summary>
+       /// Класс для получения точки движения
+       /// </summary>
+       /// <param name="agent"></param>
+       /// <returns></returns>
         public static Vector3 GetPoint(Transform agent)
         {
             Vector3 result;

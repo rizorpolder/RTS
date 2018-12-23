@@ -8,8 +8,6 @@ namespace MyProject
         private float _hp = 100f;
         public Transform Target { get; set; }
         public Vision Vision;
-
-
         public NavMeshAgent agent { get; private set; }
 
         private float _waitTime = 3f;
@@ -21,7 +19,6 @@ namespace MyProject
         protected override void Awake()
         {
             base.Awake();
-            _isDead = false;
             agent = GetComponent<NavMeshAgent>();
            
 
@@ -58,10 +55,10 @@ namespace MyProject
                 {
                     //Атака
                 }
-                else
-                {
-                    _isDetected = false;
-                }
+                //else
+                //{
+                //    _isDetected = false;
+                //}
                 //Потеря персонажа
             }
         }
@@ -78,7 +75,7 @@ namespace MyProject
                 _isDead = true;
                 agent.enabled = false;
 
-                foreach(Transform child in GetComponentInChildren<Transform>())
+                foreach(var child in GetComponentsInChildren<Transform>())
                 {
                     child.parent = null;
                     

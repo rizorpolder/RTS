@@ -9,7 +9,7 @@
             On(null);
         }
 
-        public virtual void On(BaseObject obj = null)
+        public virtual void On(BaseObjectScene obj = null)
     {
         IsActive = true;
     }
@@ -21,8 +21,14 @@
 
         public void Switch()
         {
-            if (IsActive) Off();
-            else On();
+            if (IsActive)
+            {
+                Off();
+            }
+            else
+            {
+                On();
+            }
         }
 
         public abstract void MyUpdate();
