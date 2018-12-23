@@ -20,7 +20,7 @@ namespace MyProject
         {
             base.Awake();
             agent = GetComponent<NavMeshAgent>();
-           
+            Vision = new Vision();
 
         }
 
